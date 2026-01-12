@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://chk3w4jx27ikr"]
+[gd_scene load_steps=17 format=3 uid="uid://chk3w4jx27ikr"]
 
 [ext_resource type="PackedScene" uid="uid://54g7uoqeb32p" path="res://scenes/player.tscn" id="1"]
 [ext_resource type="Script" uid="uid://5b61u1x33k1t" path="res://scripts/camera_controller.gd" id="2"]
 [ext_resource type="Script" uid="uid://bpmlw36nd4np4" path="res://scripts/fov_manager.gd" id="3"]
-[ext_resource type="PackedScene" uid="uid://cci7gnrwhq3m5" path="res://assets/models/characters/character-male-a.glb" id="3_tefeu"]
 [ext_resource type="Shader" uid="uid://dro2hqbtuijuo" path="res://shaders/fov_overlay.gdshader" id="4"]
 [ext_resource type="Script" uid="uid://hcm4ocsm4jrr" path="res://scripts/fov_visible_object.gd" id="5"]
 
@@ -84,9 +83,6 @@ script = ExtResource("5")
 
 [node name="Player" parent="." instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
-[node name="character-male-a" parent="Player" instance=ExtResource("3_tefeu")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2")

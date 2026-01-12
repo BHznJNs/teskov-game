@@ -1,20 +1,25 @@
 [gd_scene load_steps=4 format=3 uid="uid://54g7uoqeb32p"]
 
 [ext_resource type="Script" uid="uid://c8vbfxyxblj04" path="res://scripts/player.gd" id="1_script"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_1"]
+[ext_resource type="PackedScene" uid="uid://cci7gnrwhq3m5" path="res://assets/models/characters/character-male-a.glb" id="2_g2els"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_1"]
 radius = 0.2
 height = 1.0
 
-[node name="Player" type="CharacterBody3D" groups=["player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player") groups=["player"]]
 script = ExtResource("1_script")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("CapsuleMesh_1")
+animation_player = NodePath("character-male-a/AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape_1")
+
+[node name="character-male-a" parent="." instance=ExtResource("2_g2els")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="character-male-a/character-male-a" index="0"]
+bones/4/rotation = Quaternion(0, 0, -0.3826835, 0.92387956)
+bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
+
+[editable path="character-male-a"]

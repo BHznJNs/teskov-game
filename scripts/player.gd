@@ -18,9 +18,28 @@ extends CharacterBody3D
 # 存储当前瞄准的世界坐标位置
 var target_look_at: Vector3 = Vector3.ZERO
 
+@export var animation_player: AnimationPlayer
+
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	handle_rotation(delta)
+	handle_animation()
+
+## 处理动画状态
+func handle_animation() -> void:
+	if not animation_player:
+		return
+		
+	# 根据移动速度决定播放哪个动画
+	# 使用 horizontal velocity 忽略垂直速度（如跳跃/下落）
+	var horizontal_velocity := Vector3(velocity.x, 0, velocity.z)
+	
+	if horizontal_velocity.length() > 0.1:
+		if animation_player.current_animation != "walk":
+			animation_player.play("walk", 0.2) # 0.2s 混合时间，使切换更平滑
+	else:
+		if animation_player.current_animation != "idle":
+			animation_player.play("idle", 0.2)
 
 ## 处理 WASD 移动
 func handle_movement(delta: float) -> void:
