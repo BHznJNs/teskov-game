@@ -1,11 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://54g7uoqeb32p"]
+[gd_scene load_steps=8 format=3 uid="uid://54g7uoqeb32p"]
 
 [ext_resource type="Script" uid="uid://c8vbfxyxblj04" path="res://scripts/player.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cci7gnrwhq3m5" path="res://assets/models/characters/character-male-a.glb" id="2_g2els"]
+[ext_resource type="PackedScene" uid="uid://n07gosureht8" path="res://assets/models/weapons/blaster-a.glb" id="3_weapon"]
+[ext_resource type="Texture2D" uid="uid://db7ncf657n3c" path="res://assets/models/weapons/Textures/colormap.png" id="4_dqkch"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_1"]
 radius = 0.2
 height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qlg0r"]
+albedo_texture = ExtResource("4_dqkch")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqkch"]
+albedo_texture = ExtResource("4_dqkch")
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player") groups=["player"]]
 script = ExtResource("1_script")
@@ -19,7 +27,20 @@ shape = SubResource("CapsuleShape_1")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="character-male-a/character-male-a" index="0"]
-bones/4/rotation = Quaternion(0, 0, -0.3826835, 0.92387956)
+bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
 bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
 
+[node name="RightHandAttachment" type="BoneAttachment3D" parent="character-male-a/character-male-a/Skeleton3D" index="0"]
+bone_name = "hand.R"
+
+[node name="blaster-a" parent="character-male-a/character-male-a/Skeleton3D/RightHandAttachment" groups=["player"] instance=ExtResource("3_weapon")]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -0.25, 0.3, 0.12)
+
+[node name="blaster-a" parent="character-male-a/character-male-a/Skeleton3D/RightHandAttachment/blaster-a" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_qlg0r")
+
+[node name="magazine" parent="character-male-a/character-male-a/Skeleton3D/RightHandAttachment/blaster-a/blaster-a" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_dqkch")
+
 [editable path="character-male-a"]
+[editable path="character-male-a/character-male-a/Skeleton3D/RightHandAttachment/blaster-a"]
