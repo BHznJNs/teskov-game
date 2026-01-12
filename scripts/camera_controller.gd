@@ -8,7 +8,7 @@ extends Node3D
 @export var follow_speed: float = 5.0
 
 @export_group("Camera Settings")
-@export var offset: Vector3 = Vector3(10, 10, 10)  # 默认等距视角偏移
+@export var offset: Vector3 = Vector3(5, 6, 5)  # 默认等距视角偏移（更近的视角）
 @export var look_at_offset: Vector3 = Vector3.ZERO
 
 @onready var camera: Camera3D = $Camera3D

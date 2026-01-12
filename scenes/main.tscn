@@ -1,23 +1,11 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=18 format=3 uid="uid://chk3w4jx27ikr"]
 
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1"]
-[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/fov_manager.gd" id="3"]
-[ext_resource type="Shader" path="res://shaders/fov_overlay.gdshader" id="4"]
-[ext_resource type="Script" path="res://scripts/fov_visible_object.gd" id="5"]
-
-[sub_resource type="ShaderMaterial" id="6"]
-render_priority = 0
-shader = ExtResource("4")
-shader_parameter/player_pos = Vector3(0, 0, 0)
-shader_parameter/player_forward = Vector3(0, 0, -1)
-shader_parameter/fov_radius = 15.0
-shader_parameter/fov_angle = 1.5708
-shader_parameter/darken_amount = 0.3
-
-[sub_resource type="QuadMesh" id="7"]
-flip_faces = true
-size = Vector2(2, 2)
+[ext_resource type="PackedScene" uid="uid://54g7uoqeb32p" path="res://scenes/player.tscn" id="1"]
+[ext_resource type="Script" uid="uid://5b61u1x33k1t" path="res://scripts/camera_controller.gd" id="2"]
+[ext_resource type="Script" uid="uid://bpmlw36nd4np4" path="res://scripts/fov_manager.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://cci7gnrwhq3m5" path="res://assets/models/characters/character-male-a.glb" id="3_tefeu"]
+[ext_resource type="Shader" uid="uid://dro2hqbtuijuo" path="res://shaders/fov_overlay.gdshader" id="4"]
+[ext_resource type="Script" uid="uid://hcm4ocsm4jrr" path="res://scripts/fov_visible_object.gd" id="5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="8"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -49,6 +37,19 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="SphereMesh" id="16"]
 material = SubResource("15")
+
+[sub_resource type="QuadMesh" id="7"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="6"]
+render_priority = 0
+shader = ExtResource("4")
+shader_parameter/player_pos = Vector3(0, 0, 0)
+shader_parameter/player_forward = Vector3(0, 0, -1)
+shader_parameter/fov_radius = 15.0
+shader_parameter/fov_angle = 1.5708
+shader_parameter/darken_amount = 0.3
 
 [node name="Main" type="Node3D"]
 
@@ -84,12 +85,14 @@ script = ExtResource("5")
 [node name="Player" parent="." instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[node name="character-male-a" parent="Player" instance=ExtResource("3_tefeu")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
 [node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2")
 target = NodePath("../Player")
 
 [node name="Camera3D" type="Camera3D" parent="CameraController"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="FOVOverlay" type="MeshInstance3D" parent="CameraController/Camera3D" groups=["fov_overlay"]]
 extra_cull_margin = 16384.0
