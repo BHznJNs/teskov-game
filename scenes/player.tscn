@@ -15,8 +15,10 @@ albedo_texture = ExtResource("4_dqkch")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqkch"]
 albedo_texture = ExtResource("4_dqkch")
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player") groups=["player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("weapon_attachment", "weapon", "animation_player") groups=["player"]]
 script = ExtResource("1_script")
+weapon_attachment = NodePath("character-male-a/character-male-a/Skeleton3D/WeaponAttachment")
+weapon = NodePath("character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a")
 animation_player = NodePath("character-male-a/AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["player"]]
