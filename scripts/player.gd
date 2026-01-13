@@ -4,7 +4,8 @@ extends CharacterBody3D
 ## 实现 WASD 移动（相对于世界坐标系）与朝向目标点旋转
 
 @export_group("Movement")
-@export var speed: float = 5.0
+@export var walk_speed: float = 5.0
+@export var sprint_speed: float = 8.0
 @export var acceleration: float = 15.0
 @export var friction: float = 10.0
 
@@ -39,7 +40,12 @@ func handle_animation() -> void:
 	var horizontal_velocity := Vector3(velocity.x, 0, velocity.z)
 	
 	if horizontal_velocity.length() > 0.1:
-		if animation_player.has_animation("walk") and animation_player.current_animation != "walk":
+		var is_sprinting = Input.is_key_pressed(KEY_SHIFT)
+		
+		if is_sprinting and animation_player.has_animation("sprint"):
+			if animation_player.current_animation != "sprint":
+				animation_player.play("sprint", 0.2)
+		elif animation_player.has_animation("walk") and animation_player.current_animation != "walk":
 			animation_player.play("walk", 0.2)
 	else:
 		if animation_player.has_animation("idle") and animation_player.current_animation != "idle":
@@ -55,9 +61,14 @@ func handle_movement(delta: float) -> void:
 	var direction := Vector3(input_dir.x, 0, input_dir.y).normalized()
 	
 	if direction != Vector3.ZERO:
+		# 检查是否按住 Shift 奔跑
+		var target_speed = walk_speed
+		if Input.is_key_pressed(KEY_SHIFT):
+			target_speed = sprint_speed
+			
 		# 加速移动
-		velocity.x = lerp(velocity.x, direction.x * speed, acceleration * delta)
-		velocity.z = lerp(velocity.z, direction.z * speed, acceleration * delta)
+		velocity.x = lerp(velocity.x, direction.x * target_speed, acceleration * delta)
+		velocity.z = lerp(velocity.z, direction.z * target_speed, acceleration * delta)
 	else:
 		# 摩擦力减速
 		velocity.x = lerp(velocity.x, 0.0, friction * delta)
