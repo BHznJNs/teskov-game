@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://54g7uoqeb32p"]
+[gd_scene load_steps=9 format=3 uid="uid://54g7uoqeb32p"]
 
 [ext_resource type="Script" uid="uid://c8vbfxyxblj04" path="res://scripts/player.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cci7gnrwhq3m5" path="res://assets/models/characters/character-male-a.glb" id="2_g2els"]
+[ext_resource type="PackedScene" uid="uid://dtclgpudk4ih3" path="res://scenes/bullet.tscn" id="2_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://n07gosureht8" path="res://assets/models/weapons/blaster-a.glb" id="3_weapon"]
 [ext_resource type="Texture2D" uid="uid://db7ncf657n3c" path="res://assets/models/weapons/Textures/colormap.png" id="4_dqkch"]
 
@@ -19,6 +20,7 @@ albedo_texture = ExtResource("4_dqkch")
 script = ExtResource("1_script")
 weapon_attachment = NodePath("character-male-a/character-male-a/Skeleton3D/WeaponAttachment")
 weapon = NodePath("character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a")
+bullet_scene = ExtResource("2_qlg0r")
 animation_player = NodePath("character-male-a/AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["player"]]
@@ -29,14 +31,14 @@ shape = SubResource("CapsuleShape_1")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="character-male-a/character-male-a" index="0"]
-bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
-bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
+bones/4/rotation = Quaternion(0, 0, -0.3826835, 0.92387956)
+bones/5/rotation = Quaternion(0, 0.5, 0, 0.8660254)
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="character-male-a/character-male-a/Skeleton3D" index="0"]
 bone_name = "hand.R"
 
 [node name="WeaponAttachment" type="BoneAttachment3D" parent="character-male-a/character-male-a/Skeleton3D" index="3"]
-transform = Transform3D(0.7071067, -0.70710677, 0, 0.70710677, 0.7071067, 0, 0, 0, 1, -0.09989677, 0.28775, -0.017250001)
+transform = Transform3D(0.5, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, 0.5, -0.09989677, 0.28775, -0.017250001)
 bone_name = "arm-right"
 bone_idx = 5
 
@@ -48,6 +50,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qlg0r")
 
 [node name="magazine" parent="character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a/blaster-a" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dqkch")
+
+[node name="Muzzle" type="Marker3D" parent="character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a/blaster-a" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 5.9604645e-08, 0, 1, 0.0058692396, 0.050671577, 0.4183497)
 
 [editable path="character-male-a"]
 [editable path="character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a"]

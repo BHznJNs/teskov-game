@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtclgpudk4ih3"]
+
+[ext_resource type="Script" uid="uid://pnfx8y8kwd7d" path="res://scripts/bullet.gd" id="1_mkf8s"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_y25gk"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l5glv"]
+
+[node name="Bullet" type="Area3D"]
+collision_layer = 4
+collision_mask = 10
+script = ExtResource("1_mkf8s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_y25gk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l5glv")

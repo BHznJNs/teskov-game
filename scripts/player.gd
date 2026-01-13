@@ -17,6 +17,13 @@ extends CharacterBody3D
 @export var weapon_attachment: BoneAttachment3D
 ## 武器模型节点
 @export var weapon: Node3D
+## 子弹场景
+@export var bullet_scene: PackedScene
+
+@export_group("Shooting")
+## 射击冷却时间
+@export var fire_rate: float = 0.2
+var shoot_timer: float = 0.0
 
 @export_group("FOV")
 @export var fov_radius: float = 15.0
@@ -31,6 +38,62 @@ func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	handle_rotation(delta)
 	handle_animation()
+	
+	if shoot_timer > 0:
+		shoot_timer -= delta
+
+func _input(event: InputEvent) -> void:
+	# 检测射击输入 (鼠标左键)
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			# 只有在鼠标被捕获模式下才允许射击（避免点击 UI 或切换窗口时射击）
+			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+				shoot()
+
+## 处理射击逻辑
+func shoot() -> void:
+	if shoot_timer > 0 or not bullet_scene:
+		return
+		
+	# 查找枪口位置
+	# 假设我们在武器节点下添加了一个名为 "Muzzle" 的 Marker3D
+	var muzzle = weapon.find_child("Muzzle", true)
+	if not muzzle:
+		# 如果找不到 Muzzle，则回退到武器位置
+		muzzle = weapon
+		
+	# 播放射击动画
+	if animation_player and animation_player.has_animation("holding-right-shoot"):
+		# 使用 Blend/OneShot 更好，但这里先简单播放
+		# 注意：这里可能会打断移动动画，建议在编辑器中使用 AnimationTree 优化
+		animation_player.play("holding-right-shoot")
+		# 0.5秒后切回原来的动画逻辑由 handle_animation 在下一帧处理（如果不是循环动画）
+	
+	# 实例化子弹
+	var bullet = bullet_scene.instantiate()
+	
+	# 设置发射者，防止子弹刚出生就撞到自己
+	if "shooter" in bullet:
+		bullet.set("shooter", self)
+		
+	# 将子弹添加到场景树（通常添加到根节点或专门的子弹容器，避免随玩家移动）
+	get_tree().root.add_child(bullet)
+	
+	# 设置子弹初始位置和朝向
+	bullet.global_position = muzzle.global_position
+	
+	# 计算子弹朝向：看向目标点
+	# 确保目标点与枪口在同一水平高度，实现水平射击
+	var horizontal_target = Vector3(target_look_at.x, muzzle.global_position.y, target_look_at.z)
+	
+	# 如果目标点离枪口太近，直接使用枪口的朝向
+	if bullet.global_position.distance_to(horizontal_target) > 0.1:
+		bullet.look_at(horizontal_target)
+	else:
+		bullet.global_transform.basis = muzzle.global_transform.basis
+	
+	# 设置冷却
+	shoot_timer = fire_rate
 
 ## 处理动画状态
 func handle_animation() -> void:
