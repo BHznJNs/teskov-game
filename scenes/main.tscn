@@ -1,11 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://chk3w4jx27ikr"]
+[gd_scene load_steps=21 format=3 uid="uid://chk3w4jx27ikr"]
 
 [ext_resource type="PackedScene" uid="uid://54g7uoqeb32p" path="res://scenes/player.tscn" id="1"]
 [ext_resource type="Script" uid="uid://5b61u1x33k1t" path="res://scripts/camera_controller.gd" id="2"]
 [ext_resource type="Script" uid="uid://bpmlw36nd4np4" path="res://scripts/fov_manager.gd" id="3"]
 [ext_resource type="Shader" uid="uid://dro2hqbtuijuo" path="res://shaders/fov_overlay.gdshader" id="4"]
+[ext_resource type="Resource" uid="uid://b73mgw27chrua" path="res://resources/apple.tres" id="4_tipki"]
 [ext_resource type="Script" uid="uid://hcm4ocsm4jrr" path="res://scripts/fov_visible_object.gd" id="5"]
 [ext_resource type="Script" uid="uid://rukce8ommoni" path="res://scripts/ui/crosshair.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://cmb40bn0jdgol" path="res://scripts/inventory_item.gd" id="7_o6xl0"]
+[ext_resource type="Script" uid="uid://da068rya74iij" path="res://scripts/ui/inventory_bar.gd" id="9_85g3d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="8"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -86,6 +89,7 @@ script = ExtResource("5")
 [node name="Player" parent="." instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_mask = 11
+inventory = Array[ExtResource("7_o6xl0")]([ExtResource("4_tipki"), null, null, null, null, null, null, null])
 
 [node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2")
@@ -111,3 +115,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 script = ExtResource("6_tefeu")
+
+[node name="InventoryBar" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_85g3d")
