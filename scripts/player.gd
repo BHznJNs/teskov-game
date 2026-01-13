@@ -11,6 +11,12 @@ extends CharacterBody3D
 @export_group("Rotation")
 @export var rotation_speed: float = 10.0
 
+@export_group("Equipment")
+## 武器挂载点 (BoneAttachment3D)
+@export var weapon_attachment: BoneAttachment3D
+## 武器模型节点
+@export var weapon: Node3D
+
 @export_group("FOV")
 @export var fov_radius: float = 15.0
 @export var fov_angle: float = 90.0 # 度数
@@ -30,15 +36,13 @@ func handle_animation() -> void:
 	if not animation_player:
 		return
 		
-	# 根据移动速度决定播放哪个动画
-	# 使用 horizontal velocity 忽略垂直速度（如跳跃/下落）
 	var horizontal_velocity := Vector3(velocity.x, 0, velocity.z)
 	
 	if horizontal_velocity.length() > 0.1:
-		if animation_player.current_animation != "walk":
-			animation_player.play("walk", 0.2) # 0.2s 混合时间，使切换更平滑
+		if animation_player.has_animation("walk") and animation_player.current_animation != "walk":
+			animation_player.play("walk", 0.2)
 	else:
-		if animation_player.current_animation != "idle":
+		if animation_player.has_animation("idle") and animation_player.current_animation != "idle":
 			animation_player.play("idle", 0.2)
 
 ## 处理 WASD 移动

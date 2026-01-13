@@ -33,14 +33,19 @@ bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="character-male-a/character-male-a/Skeleton3D" index="0"]
 bone_name = "hand.R"
 
-[node name="blaster-a" parent="character-male-a/character-male-a/Skeleton3D/RightHandAttachment" groups=["player"] instance=ExtResource("3_weapon")]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -0.25, 0.3, 0.12)
+[node name="WeaponAttachment" type="BoneAttachment3D" parent="character-male-a/character-male-a/Skeleton3D" index="3"]
+transform = Transform3D(0.7071067, -0.70710677, 0, 0.70710677, 0.7071067, 0, 0, 0, 1, -0.09989677, 0.28775, -0.017250001)
+bone_name = "arm-right"
+bone_idx = 5
 
-[node name="blaster-a" parent="character-male-a/character-male-a/Skeleton3D/RightHandAttachment/blaster-a" index="0"]
+[node name="blaster-a" parent="character-male-a/character-male-a/Skeleton3D/WeaponAttachment" groups=["player"] instance=ExtResource("3_weapon")]
+transform = Transform3D(0.53033006, 0.5303301, -3.5527137e-15, -0.5303301, 0.53033006, 7.1054274e-15, 0, 0, 0.75, -0.09747694, 0.11480108, 0.13725)
+
+[node name="blaster-a" parent="character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_qlg0r")
 
-[node name="magazine" parent="character-male-a/character-male-a/Skeleton3D/RightHandAttachment/blaster-a/blaster-a" index="0"]
+[node name="magazine" parent="character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a/blaster-a" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dqkch")
 
 [editable path="character-male-a"]
-[editable path="character-male-a/character-male-a/Skeleton3D/RightHandAttachment/blaster-a"]
+[editable path="character-male-a/character-male-a/Skeleton3D/WeaponAttachment/blaster-a"]
