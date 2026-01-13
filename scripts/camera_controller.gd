@@ -8,13 +8,18 @@ extends Node3D
 @export var follow_speed: float = 5.0
 
 @export_group("Camera Settings")
-@export var offset: Vector3 = Vector3(5, 6, 5)  # 默认等距视角偏移（更近的视角）
+@export var offset: Vector3 = Vector3(4, 5, 4)  # 默认等距视角偏移
 @export var look_at_offset: Vector3 = Vector3.ZERO
 
 @onready var camera: Camera3D = $Camera3D
 @onready var fov_overlay: MeshInstance3D = get_tree().get_first_node_in_group("fov_overlay")
 
+var crosshair_ui: Control
+
 func _ready() -> void:
+	# 获取准星 UI 引用
+	# 假设准星被添加到了名为 "crosshair" 的组中，或者我们直接通过节点路径寻找
+	crosshair_ui = get_tree().get_first_node_in_group("crosshair")
 	# 初始化摄像机位置与角度
 	if target:
 		global_position = target.global_position + offset
@@ -39,11 +44,19 @@ func look_at_target() -> void:
 	if target:
 		camera.look_at(target.global_position + look_at_offset, Vector3.UP)
 
-## 获取鼠标在 3D 空间中的位置（通过射线检测）
+## 获取准星/鼠标在 3D 空间中的位置（通过射线检测）
 func get_mouse_3d_position() -> Vector3:
-	var mouse_pos = get_viewport().get_mouse_position()
-	var ray_origin = camera.project_ray_origin(mouse_pos)
-	var ray_direction = camera.project_ray_normal(mouse_pos)
+	var aim_screen_pos: Vector2
+	
+	if crosshair_ui and crosshair_ui.has_method("get_crosshair_screen_position"):
+		# 使用虚拟准星的位置
+		aim_screen_pos = crosshair_ui.get_crosshair_screen_position()
+	else:
+		# 退回到物理鼠标位置
+		aim_screen_pos = get_viewport().get_mouse_position()
+		
+	var ray_origin = camera.project_ray_origin(aim_screen_pos)
+	var ray_direction = camera.project_ray_normal(aim_screen_pos)
 	
 	# 创建射线查询
 	var ray_query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_direction * 1000)

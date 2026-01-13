@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://chk3w4jx27ikr"]
+[gd_scene load_steps=18 format=3 uid="uid://chk3w4jx27ikr"]
 
 [ext_resource type="PackedScene" uid="uid://54g7uoqeb32p" path="res://scenes/player.tscn" id="1"]
 [ext_resource type="Script" uid="uid://5b61u1x33k1t" path="res://scripts/camera_controller.gd" id="2"]
 [ext_resource type="Script" uid="uid://bpmlw36nd4np4" path="res://scripts/fov_manager.gd" id="3"]
 [ext_resource type="Shader" uid="uid://dro2hqbtuijuo" path="res://shaders/fov_overlay.gdshader" id="4"]
 [ext_resource type="Script" uid="uid://hcm4ocsm4jrr" path="res://scripts/fov_visible_object.gd" id="5"]
+[ext_resource type="Script" uid="uid://rukce8ommoni" path="res://scripts/ui/crosshair.gd" id="6_tefeu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="8"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -98,3 +99,13 @@ surface_material_override/0 = SubResource("6")
 [node name="FOVManager" type="Node" parent="." node_paths=PackedStringArray("player") groups=["fov_manager"]]
 script = ExtResource("3")
 player = NodePath("../Player")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Crosshair" type="Control" parent="CanvasLayer" groups=["crosshair"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("6_tefeu")
